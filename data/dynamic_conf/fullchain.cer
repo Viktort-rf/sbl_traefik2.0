@@ -1,0 +1,9 @@
+-----BEGIN CERTIFICATE-----
+main cert
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+Intermediate cert
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+Root cert
+-----END CERTIFICATE-----

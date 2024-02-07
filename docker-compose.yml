@@ -1,0 +1,33 @@
+version: '3.3'
+
+networks:
+  noc_prod:
+    external: true
+
+services:
+  traefik:
+    image: traefik:v2.4
+    container_name: traefik
+    restart: unless-stopped
+    networks:
+      - noc_prod
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 80:80
+      - 443:443 
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/traefik.yml:/traefik.yml:ro
+      - ./data/dynamic_conf:/dynamic_conf/:ro
+      - ./data/.htpasswd-traefik:/.htpasswd-traefik:ro
+      - ./data/.htpasswd-prn:/.htpasswd-prn:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.rule=Host(`noc-traefik-n1.example.com`)"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth-traefik"
+      - "traefik.http.middlewares.auth-traefik.basicauth.usersfile=.htpasswd-traefik"

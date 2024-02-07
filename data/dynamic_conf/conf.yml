@@ -1,0 +1,4 @@
+tls:
+  certificates:
+    - certFile: "/dynamic_conf/fullchain.cer"
+      keyFile: "/dynamic_conf/private.key"
